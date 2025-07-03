@@ -6,6 +6,13 @@
     <title>Abdelhadi ELIDRISSI | Portfolio Cyber-Futuriste</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script>
+    // Initialisez EmailJS avec votre User ID
+    (function() {
+        emailjs.init('service_x3zgvlr'); // Remplacez par votre User ID EmailJS
+    })();
+</script>
     <style>
         :root {
             --primary: #00F0FF; /* Cyan néon */
@@ -1283,7 +1290,7 @@
                 <div class="timeline-item left">
                     <div class="timeline-content">
                         <span class="timeline-date">Juillet 2024 - Août 2024</span>
-                        <h3>Stage – Cellule Technique : Analyse des Données</h3>
+                        <h3>Stage  – Cellule Technique : Analyse des Données</h3>
                         <p>Ministère de la Justice, Casablanca</p>
                         <ul>
                             <li>Analyse et vérification des dossiers</li>
@@ -1394,27 +1401,28 @@
                         </div>
                     </div>
                 </div>
-                <div class="contact-form">
-                    <form>
-                        <div class="form-group">
-                            <label for="name">Nom complet</label>
-                            <input type="text" id="name" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="subject">Sujet</label>
-                            <input type="text" id="subject" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="message">Message</label>
-                            <textarea id="message" class="form-control" required></textarea>
-                        </div>
-                        <button type="submit" class="btn">Envoyer le message</button>
-                    </form>
-                </div>
+               <div class="contact-form">
+    <form action="sendmail.php" method="POST">
+        <div class="form-group">
+            <label for="name">Nom complet</label>
+            <input type="text" id="name" name="name" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="subject">Sujet</label>
+            <input type="text" id="subject" name="subject" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" class="form-control" required></textarea>
+        </div>
+        <button type="submit" class="btn">Envoyer le message</button>
+        <div id="form-message" style="display: none; margin-top: 20px;"></div>
+    </form>
+</div>
             </div>
         </div>
     </section>
@@ -1447,6 +1455,40 @@
         <i class="fas fa-moon"></i>
     </button>
 
+    
+    <!--scripts pour l'email -->
+    <script>
+document.getElementById('contact-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const form = this;
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
+    
+    try {
+        const response = await fetch('sendmail.php', {
+            method: 'POST',
+            body: new FormData(form)
+        });
+        
+        const result = await response.json();
+        
+        if (!response.ok) throw new Error(result.error || 'Erreur inconnue');
+        
+        alert('Message envoyé avec succès !');
+        form.reset();
+    } catch (error) {
+        console.error('Erreur:', error);
+        alert('Erreur: ' + error.message);
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalText;
+    }
+});
+</script>
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
