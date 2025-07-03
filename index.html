@@ -1402,7 +1402,7 @@
                     </div>
                 </div>
                <div class="contact-form">
-    <form action="sendmail.php" method="POST">
+    <form id="contactForm"> <!-- Retirez action et method -->
         <div class="form-group">
             <label for="name">Nom complet</label>
             <input type="text" id="name" name="name" class="form-control" required>
@@ -1419,7 +1419,7 @@
             <label for="message">Message</label>
             <textarea id="message" name="message" class="form-control" required></textarea>
         </div>
-        <button type="submit" class="btn">Envoyer le message</button>
+        <button type="submit" id="submitBtn" class="btn">Envoyer le message</button>
         <div id="form-message" style="display: none; margin-top: 20px;"></div>
     </form>
 </div>
@@ -1457,38 +1457,7 @@
 
     
     <!--scripts pour l'email -->
-    <script>
-document.getElementById('contact-form').addEventListener('submit', async function(e) {
-    e.preventDefault();
     
-    const form = this;
-    const submitBtn = form.querySelector('button[type="submit"]');
-    const originalText = submitBtn.innerHTML;
-    
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
-    
-    try {
-        const response = await fetch('sendmail.php', {
-            method: 'POST',
-            body: new FormData(form)
-        });
-        
-        const result = await response.json();
-        
-        if (!response.ok) throw new Error(result.error || 'Erreur inconnue');
-        
-        alert('Message envoyé avec succès !');
-        form.reset();
-    } catch (error) {
-        console.error('Erreur:', error);
-        alert('Erreur: ' + error.message);
-    } finally {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = originalText;
-    }
-});
-</script>
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
@@ -1662,4 +1631,47 @@ document.getElementById('contact-form').addEventListener('submit', async functio
         });
     </script>
 </body>
+<script>
+// Initialisation d'EmailJS avec votre Public Key
+emailjs.init('AAb-i_a4_iLDVCOoQ'); // Utilisez votre Public Key
+
+document.getElementById('contactForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const submitBtn = document.getElementById('submitBtn');
+    const formMessage = document.getElementById('form-message');
+    
+    // Désactive le bouton pendant l'envoi
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
+    formMessage.style.display = 'none';
+
+    // Envoi via EmailJS
+    emailjs.send("service_x3zgvlr","template_i43d1cu");
+    .then(function() {
+        // Succès
+        formMessage.innerHTML = `
+            <div style="color: var(--accent); padding: 10px; border-radius: 5px;">
+                <i class="fas fa-check-circle"></i> Message envoyé avec succès!
+            </div>
+        `;
+        formMessage.style.display = 'block';
+        e.target.reset();
+    }, function(error) {
+        // Erreur
+        console.error('Erreur EmailJS:', error);
+        formMessage.innerHTML = `
+            <div style="color: var(--secondary); padding: 10px; border-radius: 5px;">
+                <i class="fas fa-exclamation-circle"></i> Erreur: ${error.text || "L'envoi a échoué"}
+            </div>
+        `;
+        formMessage.style.display = 'block';
+    })
+    .finally(function() {
+        // Réactive le bouton
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Envoyer';
+    });
+});
+</script>
 </html>
