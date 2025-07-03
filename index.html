@@ -215,15 +215,36 @@
             margin-bottom: 2rem;
         }
 
-        .hero-text h1 {
-            font-size: 2.5rem;
-            line-height: 1.2;
-            margin-bottom: 1.5rem;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
+      .hero-text h1 {
+    font-size: 2.2rem;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.hero-text h1 span {
+    margin-top: 0.5rem;
+    font-size: 1.8rem;
+}
+
+@media (min-width: 768px) {
+    .hero-text h1 {
+        flex-direction: row;
+        align-items: baseline;
+        gap: 0.5rem;
+    }
+    
+    .hero-text h1 span {
+        margin-top: 0;
+        font-size: inherit;
+    }
+}
 
         .hero-text p {
             font-size: 1rem;
@@ -1250,19 +1271,19 @@
             <div class="shape shape-3"></div>
         </div>
         <div class="container hero-content">
-            <div class="hero-text">
-                <h1>Abdelhadi ELIDRISSI</h1>
-                <p>Étudiant en Ingénierie Informatique et réseaux passionné par le développement web et les systèmes d'information.</p>
-                <div class="hero-btns">
-                    <a href="#contact" class="btn">Contactez-moi</a>
-                    <a href="assets/docs/CV_Abdelhadi_ELIDRISSI.pdf" 
-                       class="btn btn-outline" 
-                       download="CV_Abdelhadi_ELIDRISSI.pdf"
-                       target="_blank">
-                       <i class="fas fa-download"></i> Télécharger CV
-                    </a>
-                </div>
-            </div>
+           <div class="hero-text">
+    <h1>Abdelhadi <span>ELIDRISSI</span></h1>
+    <p>Étudiant en Ingénierie Informatique et réseaux passionné par le développement web et les systèmes d'information.</p>
+    <div class="hero-btns">
+        <a href="#contact" class="btn">Contactez-moi</a>
+        <a href="assets/docs/CV_Abdelhadi_ELIDRISSI.pdf" 
+           class="btn btn-outline" 
+           download="CV_Abdelhadi_ELIDRISSI.pdf"
+           target="_blank">
+           <i class="fas fa-download"></i> Télécharger CV
+        </a>
+    </div>
+</div>
             <div class="hero-image">
                 <div class="profile-card">
                     <div class="profile-img">
